@@ -1,15 +1,53 @@
+"use client";
+
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import UserIconMenu from "./UserIconMenu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "../ui/popover";
+import { LoginForm } from "../login-form/LoginForm";
+import { useAuth } from "@/app/features/auth/AuthProvider";
+import { useState } from "react";
 
 export default function TopBar() {
+  const { user } = useAuth();
+  const [open, setOpen] = useState(false);
+
   return (
     <div className="w-full h-16 bg-card border-b border-accent flex items-center justify-between px-4">
       <h1 className="text-white text-lg">TopBar</h1>
-      <Input className="w-72" />
-      <div className="flex items-center">
-        <Button variant="outline" className="mr-4">Sign In</Button>
-        <UserIconMenu />
+
+      <div className="flex items-center gap-3">
+        {!user && (
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="mr-2">
+                Sign In
+              </Button>
+            </PopoverTrigger>
+
+            <PopoverContent
+              className="w-80 bg-accent"
+              align="end"
+              sideOffset={8}
+            >
+              <PopoverHeader className="">
+                <PopoverTitle className="text-3xl">Welcome Back!</PopoverTitle>
+                <PopoverDescription className="pb-2 text-md">
+                  Please sign in to continue.
+                </PopoverDescription>
+                <LoginForm onSuccess={() => setOpen(false)} />
+              </PopoverHeader>
+            </PopoverContent>
+          </Popover>
+        )}
+        {user && <UserIconMenu />}
       </div>
     </div>
   );
