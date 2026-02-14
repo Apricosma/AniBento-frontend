@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import UserIconMenu from "./UserIconMenu";
 import {
   Popover,
@@ -10,8 +10,8 @@ import {
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
-} from "../ui/popover";
-import { LoginForm } from "../login-form/LoginForm";
+} from "@/components/ui/popover";
+import { LoginForm } from "@/components/login-form/LoginForm";
 import { useAuth } from "@/app/features/auth/AuthProvider";
 import { useState } from "react";
 
