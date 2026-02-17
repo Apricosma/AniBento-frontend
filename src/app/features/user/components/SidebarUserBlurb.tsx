@@ -13,7 +13,7 @@ export default function SidebarUserBlurb() {
   const {
     user: profileUser,
     loading: profileLoading,
-    error,
+    notFound,
   } = useUserProfile();
 
   const displayUser = isViewingProfile ? profileUser : authUser;
@@ -23,7 +23,7 @@ export default function SidebarUserBlurb() {
     return <div className="border-b border-accent pb-4">Loading...</div>;
   }
 
-  if (error) {
+  if (notFound) {
     return (
       <div className="border-b border-accent pb-4 text-red-500">
         User not found
@@ -41,7 +41,7 @@ export default function SidebarUserBlurb() {
         {displayUser.profilePictureUrl && (
           <img
             src={displayUser.profilePictureUrl}
-            alt={displayUser.userName}
+            alt={displayUser.userName ?? "User"}
             className="w-12 h-12 rounded-full"
           />
         )}

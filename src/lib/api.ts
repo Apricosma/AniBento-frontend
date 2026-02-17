@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
+import { apiFetch } from "./fetch";
 
 export const GENRES = {
   1: "Action",
@@ -77,23 +77,15 @@ export type FetchMediaListParams = {
 };
 
 export async function fetchMediaList(
-  params: FetchMediaListParams,
+  params: FetchMediaListParams
 ): Promise<PagedResponse<MediaListItem>> {
-  if (!API_BASE) {
-    throw new Error("NEXT_PUBLIC_API_BASE is not set");
-  }
+  const queryParams = new URLSearchParams({
+    page: String(params.page),
+    pageSize: String(params.pageSize),
+  });
 
-  const base = API_BASE.endsWith("/") ? API_BASE : `${API_BASE}/`;
-  const url = new URL("media", base);
-  url.searchParams.set("page", String(params.page));
-  url.searchParams.set("pageSize", String(params.pageSize));
-
-  const res = await fetch(url.toString(), { cache: "no-store" });
-
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(`Failed to fetch media list (${res.status}): ${text}`);
-  }
-
-  return (await res.json()) as PagedResponse<MediaListItem>;
+  return apiFetch<PagedResponse<MediaListItem>>(
+    `/media?${queryParams.toString()}`,
+    { cache: "no-store" }
+  );
 }

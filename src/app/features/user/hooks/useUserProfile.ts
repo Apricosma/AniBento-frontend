@@ -1,20 +1,17 @@
-import { HttpError } from '@/app/features/auth/authFetch';
-import { useAuth } from '@/app/features/auth/AuthProvider';
-import { apiFetch } from '@/lib/fetch';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { HttpError, apiFetch } from "@/lib/fetch";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type UserDetails = {
   id: string;
   userName: string;
   profilePictureUrl?: string | null;
-}
+};
 
 export function useUserProfile() {
   const params = useParams<{ userName?: string }>();
   const userName = params?.userName;
-  
-  const { token } = useAuth(); // only for auth header
+
   const [user, setUser] = useState<UserDetails | null>(null);
   const [loading, setLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
@@ -33,7 +30,7 @@ export function useUserProfile() {
       setLoading(true);
       setNotFound(false);
       try {
-        const data = await apiFetch<UserDetails>(`/user/${userName}`, token);
+        const data = await apiFetch<UserDetails>(`/user/${userName}`);
         if (!cancelled) setUser(data);
       } catch (e) {
         if (e instanceof HttpError && e.status === 404) {
@@ -45,8 +42,10 @@ export function useUserProfile() {
     }
 
     fetchProfile();
-    return () => { cancelled = true; };
-  }, [userName, token]);
+    return () => {
+      cancelled = true;
+    };
+  }, [userName]);
 
   return { user, loading, notFound };
 }

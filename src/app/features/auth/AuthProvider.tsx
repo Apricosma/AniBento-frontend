@@ -1,80 +1,70 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { login as apiLogin, fetchUserData } from "./api";
-import type { User, AuthResponse } from "./types";
+import {
+  login as apiLogin,
+  logout as apiLogout,
+  fetchCurrentUser,
+} from "./api";
+import type { User } from "./types";
 
 type AuthState = {
   user: User | null;
-  token: string | null;
   isLoading: boolean;
-  ready: boolean;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
+  refresh: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
-const TOKEN_KEY = "anibento_token";
-
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const storedToken =
-      typeof window !== "undefined" ? localStorage.getItem(TOKEN_KEY) : null;
-    if (!storedToken) {
-      setIsLoading(false);
-      return;
-    }
-
-    (async () => {
-      try {
-        setToken(storedToken);
-        const user = await fetchUserData(storedToken);
-        setUser(user);
-      } catch {
-        localStorage.removeItem(TOKEN_KEY);
-        setToken(null);
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
-
-  async function handleLogin(email: string, password: string) {
+  async function refresh() {
     setIsLoading(true);
     try {
-      const res: AuthResponse = await apiLogin(email, password);
-
-      setToken(res.accessToken);
-      localStorage.setItem(TOKEN_KEY, res.accessToken);
-
-      const me = await fetchUserData(res.accessToken);
-      setUser(me);
+      const userData = await fetchCurrentUser();
+      setUser(userData);
+    } catch {
+      setUser(null);
     } finally {
       setIsLoading(false);
     }
   }
 
-  function handleLogout() {
-    setUser(null);
-    setToken(null);
-    if (typeof window !== "undefined") {
-      localStorage.removeItem(TOKEN_KEY);
+  async function handleLogin(email: string, password: string) {
+    setIsLoading(true);
+    try {
+      await apiLogin(email, password);
+      const userData = await fetchCurrentUser();
+      setUser(userData);
+    } finally {
+      setIsLoading(false);
     }
   }
 
+  async function handleLogout() {
+    setIsLoading(true);
+    try {
+      await apiLogout();
+    } finally {
+      setUser(null);
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
   const value: AuthState = {
     user,
-    token,
     isLoading,
-    ready: !isLoading,
     login: handleLogin,
-    logout: () => handleLogout(),
+    logout: handleLogout,
+    refresh,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
