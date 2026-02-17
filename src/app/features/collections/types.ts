@@ -1,5 +1,3 @@
-import { apiFetch } from "./fetch";
-
 export const GENRES = {
   1: "Action",
   2: "Adventure",
@@ -75,17 +73,3 @@ export type FetchMediaListParams = {
   page: number;
   pageSize: number;
 };
-
-export async function fetchMediaList(
-  params: FetchMediaListParams
-): Promise<PagedResponse<MediaListItem>> {
-  const queryParams = new URLSearchParams({
-    page: String(params.page),
-    pageSize: String(params.pageSize),
-  });
-
-  return apiFetch<PagedResponse<MediaListItem>>(
-    `/media?${queryParams.toString()}`,
-    { cache: "no-store" }
-  );
-}
