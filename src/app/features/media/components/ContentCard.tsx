@@ -1,6 +1,6 @@
 import { MediaListItem } from "@/lib/api";
-import { AspectRatio } from "../ui/aspect-ratio";
-import { Card } from "../ui/card";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Card } from "@/components/ui/card";
 
 export default function ContentCard({item }: {item?: MediaListItem}) {
   const imgSrc = item?.mediaImageUrl ?? "/placeholder.jpg";

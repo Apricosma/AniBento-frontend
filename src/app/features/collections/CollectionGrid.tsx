@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ContentCard from "./ContentCard";
-import FilterBar from "./filterbar/FilterBar";
+import ContentCard from "@/app/features/media/components/ContentCard";
+import FilterBar from "@/app/features/collections/components/filterbar/FilterBar";
 import { fetchMediaList } from "@/lib/api";
 import type { MediaListItem } from "@/lib/api";
 

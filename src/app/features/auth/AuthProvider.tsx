@@ -8,6 +8,7 @@ type AuthState = {
   user: User | null;
   token: string | null;
   isLoading: boolean;
+  ready: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 };
@@ -71,6 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user,
     token,
     isLoading,
+    ready: !isLoading,
     login: handleLogin,
     logout: () => handleLogout(),
   };
