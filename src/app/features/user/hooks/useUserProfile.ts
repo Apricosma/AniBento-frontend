@@ -1,5 +1,6 @@
+"use client";
+
 import { HttpError, apiFetch } from "@/lib/fetch";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type UserDetails = {
@@ -8,12 +9,9 @@ type UserDetails = {
   profilePictureUrl?: string | null;
 };
 
-export function useUserProfile() {
-  const params = useParams<{ userName?: string }>();
-  const userName = params?.userName;
-
+export function useUserProfile(userName?: string) {
   const [user, setUser] = useState<UserDetails | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(!!userName);
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
@@ -24,26 +22,33 @@ export function useUserProfile() {
       return;
     }
 
-    let cancelled = false;
+    let mounted = true;
+    setLoading(true);
 
     async function fetchProfile() {
-      setLoading(true);
-      setNotFound(false);
       try {
         const data = await apiFetch<UserDetails>(`/user/${userName}`);
-        if (!cancelled) setUser(data);
-      } catch (e) {
-        if (e instanceof HttpError && e.status === 404) {
-          setNotFound(true);
+        if (mounted) {
+          setUser(data);
+          setNotFound(false);
+        }
+      } catch (error: unknown) {
+        if (mounted) {
+          if (error instanceof HttpError && error.status === 404) {
+            setNotFound(true);
+          }
+          setUser(null);
         }
       } finally {
-        if (!cancelled) setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     }
 
     fetchProfile();
     return () => {
-      cancelled = true;
+      mounted = false;
     };
   }, [userName]);
 

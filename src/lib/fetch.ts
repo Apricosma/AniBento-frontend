@@ -26,7 +26,12 @@ export async function apiFetch<T = unknown>(
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");
-    throw new HttpError(res.status, text, `Request failed (${res.status})`);
+    
+    if (res.status === 404) {
+      return null as T;
+    }
+
+    throw new HttpError(res.status, text, `Request failed with status ${res.status}: ${text}`);
   }
 
   if (res.status === 204) return undefined as T;

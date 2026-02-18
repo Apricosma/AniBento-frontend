@@ -5,4 +5,10 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
 };
 
+module.exports = {
+  images: {
+    remotePatterns: [new URL('https://avatarfiles.alphacoders.com/**')]
+  }
+}
+
 export default nextConfig;
