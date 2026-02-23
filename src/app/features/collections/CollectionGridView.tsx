@@ -2,6 +2,7 @@
 
 import ContentCard from "@/app/features/media/components/ContentCard";
 import FilterBar from "@/app/features/collections/components/filterbar/FilterBar";
+import Link from "next/link";
 import type { UserCollectionDetails } from "./api";
 import { fetchCollectionDetails } from "./api";
 import { useQuery } from "@tanstack/react-query";
@@ -35,7 +36,9 @@ export default function CollectionGridView({
 
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-8 p-4">
           {data.items?.map((item) => (
-            <ContentCard key={item.collectionItemId} item={item} />
+            <Link key={item.collectionItemId} href={`/media/${item.mediaId}`}>
+              <ContentCard item={item} />
+            </Link>
           ))}
         </div>
       </div>
