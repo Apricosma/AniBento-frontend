@@ -11,10 +11,13 @@ export default async function SidebarUserLayout({
   params: Promise<{ userName: string }>;
 }) {
   const { userName } = await params;
-  const user = await fetchUserProfile(userName);
-  const collections = await fetchMyCollections(userName);
+  const [user, collections] = await Promise.all([
+    fetchUserProfile(userName),
+    fetchMyCollections(userName),
+  ]);
 
   if (!user) return <p>User not found</p>;
+  if (!collections) return <p>Failed to load collections</p>;
 
   return (
     <>
