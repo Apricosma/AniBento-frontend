@@ -9,6 +9,9 @@ export default async function CollectionContentViewPage({children, params}: {
 }) {
   const { userName, collectionId } = await params;
   const collectionDetails = await fetchUserCollectionsWithDetails(userName, Number(collectionId));
+  if (!collectionDetails) {
+    return <p>Collection not found</p>
+  }
   return (
     <div>
       <CollectionGrid collectionDetails={collectionDetails} />
