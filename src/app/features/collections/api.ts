@@ -58,6 +58,7 @@ export async function fetchUserCollections(userName: string) {
 }
 
 // Public facing collection fetching: will only return private collections if the user is authenticated and is the owner of the collections
+// TODO: Separate this into a tanstack query that figures out if it wants to client cache or server cache depending on the ownere of the collections so we don't leak data, and also keep user experience smooth. No-cache for now. 
 export async function fetchUserCollectionsWithDetails(
   userName: string,
   collectionId: number,
@@ -71,10 +72,7 @@ export async function fetchUserCollectionsWithDetails(
   return apiFetch<UserCollectionDetails>(
     `/users/${userName}/collections/${collectionId}`,
     {
-      next: {
-        revalidate: 60,
-        tags: [`collection-details-${collectionId}`],
-      },
+      cache: "no-store",
       headers: {Cookie: cookieHeader}
     },
   );
