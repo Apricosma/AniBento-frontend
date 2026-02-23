@@ -15,6 +15,7 @@ import { LoginForm } from "@/components/login-form/LoginForm";
 import { useAuth } from "@/app/features/auth/AuthProvider";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function TopBar() {
   const { user } = useAuth();
@@ -23,7 +24,9 @@ export default function TopBar() {
 
   return (
     <div className="w-full h-16 bg-card border-b border-accent flex items-center justify-between px-4">
-      <h1 className="text-white text-lg">TopBar</h1>
+      <Link href={`/user/${user?.userName}`} className="text-white text-lg">
+        TopBar
+      </Link>
 
       <div className="flex items-center gap-3">
         {!user && (
