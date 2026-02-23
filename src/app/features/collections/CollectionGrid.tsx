@@ -1,8 +1,10 @@
-import { fetchMediaList } from "./api";
+import { UserCollectionDetails } from "./api";
 import CollectionGridView from "./CollectionGridView";
 
-export default async function CollectionGrid() {
-  const data = await fetchMediaList({ page: 1, pageSize: 24 });
-
-  return <CollectionGridView initialItems={data.items} />;
+export default async function CollectionGrid({
+  collectionDetails,
+}: {
+  collectionDetails: UserCollectionDetails;
+}) {
+  return <CollectionGridView collectionDetails={collectionDetails} />;
 }
