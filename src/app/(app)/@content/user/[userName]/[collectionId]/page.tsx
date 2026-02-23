@@ -12,7 +12,7 @@ export default async function CollectionContentViewPage({ params }: {
   );
 
   return (
-    <div className="h-full min-h-0">
+    <div className="h-full min-h-0 pt-4 px-2">
       <CollectionGrid
         userName={userName}
         collectionId={parsedCollectionId}

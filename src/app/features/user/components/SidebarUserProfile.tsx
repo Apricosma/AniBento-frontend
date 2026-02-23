@@ -18,12 +18,17 @@ export default function SidebarUserProfile({
         <div className="flex flex-col items-center gap-4">
           <div className="relative w-48 h-48 flex-shrink-0 rounded-2xl overflow-hidden ring-2 ring-border">
             {user.profilePictureUrl ? (
-              <Image
-                src={user.profilePictureUrl}
-                alt={user.userName ?? "User"}
-                fill={true}
-                className="object-cover"
-              />
+              <Link
+                href={`/user/${user.userName}`}
+                className="w-full h-full block"
+              >
+                <Image
+                  src={user.profilePictureUrl}
+                  alt={user.userName ?? "User"}
+                  fill={true}
+                  className="object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </Link>
             ) : (
               <div className="w-full h-full bg-muted" />
             )}
