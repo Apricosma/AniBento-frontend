@@ -1,20 +1,23 @@
-import { fetchUserCollectionsWithDetails } from "@/app/features/collections/api";
 import CollectionGrid from "@/app/features/collections/CollectionGrid";
-import { Card } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { fetchUserCollectionsWithDetails } from "@/app/features/collections/api.server";
 
-export default async function CollectionContentViewPage({children, params}: {
-  children: React.ReactNode;
+export default async function CollectionContentViewPage({ params }: {
   params: Promise<{ userName: string; collectionId: string }>;
 }) {
   const { userName, collectionId } = await params;
-  const collectionDetails = await fetchUserCollectionsWithDetails(userName, Number(collectionId));
-  if (!collectionDetails) {
-    return <p>Collection not found</p>
-  }
+  const parsedCollectionId = Number(collectionId);
+  const initialCollectionDetails = await fetchUserCollectionsWithDetails(
+    userName,
+    parsedCollectionId,
+  );
+
   return (
-    <div>
-      <CollectionGrid collectionDetails={collectionDetails} />
+    <div className="h-full min-h-0">
+      <CollectionGrid
+        userName={userName}
+        collectionId={parsedCollectionId}
+        initialCollectionDetails={initialCollectionDetails}
+      />
     </div>
   );
 }

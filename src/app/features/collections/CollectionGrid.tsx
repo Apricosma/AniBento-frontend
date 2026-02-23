@@ -1,10 +1,22 @@
 import { UserCollectionDetails } from "./api";
 import CollectionGridView from "./CollectionGridView";
 
-export default async function CollectionGrid({
-  collectionDetails,
+export default function CollectionGrid({
+  userName,
+  collectionId,
+  initialCollectionDetails,
 }: {
-  collectionDetails: UserCollectionDetails;
+  userName: string;
+  collectionId: number;
+  initialCollectionDetails?: UserCollectionDetails | null;
 }) {
-  return <CollectionGridView collectionDetails={collectionDetails} />;
+  return (
+    <div className="h-full min-h-0">
+      <CollectionGridView
+        userName={userName}
+        collectionId={collectionId}
+        initialCollectionDetails={initialCollectionDetails}
+      />
+    </div>
+  );
 }
