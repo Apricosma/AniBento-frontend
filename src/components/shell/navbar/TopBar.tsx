@@ -14,10 +14,12 @@ import {
 import { LoginForm } from "@/components/login-form/LoginForm";
 import { useAuth } from "@/app/features/auth/AuthProvider";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function TopBar() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="w-full h-16 bg-card border-b border-accent flex items-center justify-between px-4">
@@ -42,7 +44,7 @@ export default function TopBar() {
                 <PopoverDescription className="pb-2 text-md">
                   Please sign in to continue.
                 </PopoverDescription>
-                <LoginForm onSuccess={() => setOpen(false)} />
+                <LoginForm onSuccess={() => { setOpen(false); router.refresh(); }} />
               </PopoverHeader>
             </PopoverContent>
           </Popover>
