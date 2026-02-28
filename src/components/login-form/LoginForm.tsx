@@ -16,9 +16,12 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+
     const ok = await submit(email, password);
+
     if (ok) {
       onSuccess?.();
+      window.location.reload();
     }
   }
 
@@ -41,7 +44,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password..."
-        />
+          />
         </div>
         {error && <p className="text-red-500">{error}</p>}
       </div>
