@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardFooter } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import TopBar from "@/components/shell/navbar/TopBar";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="min-h-screen px-4 py-8">
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="grid gap-6 lg:grid-cols-12">
+    <>
+      <TopBar />
+      <main className="flex-1 overflow-auto px-4 py-8">
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="grid gap-6 lg:grid-cols-12">
           {/* TOP LEFT — narrower */}
           <Card className="rounded-4xl rounded-tr-4xl rounded-br-md rounded-bl-md p-10 flex items-center lg:col-span-4 min-h-[22rem] lg:rounded-tr-md justify-between hover:border-blue-300/20 transition-colors duration-300">
             <div className="w-full text-center md:text-left">
@@ -69,10 +72,11 @@ export default function Home() {
               </h3>
             </Card>
           </Card>
+          </div>
         </div>
-      </div>
 
-      <div className="border-t mx-auto max-w-6xl h-128 mt-8"></div>
-    </main>
+        <div className="border-t mx-auto max-w-6xl h-128 mt-8"></div>
+      </main>
+    </>
   );
 }
