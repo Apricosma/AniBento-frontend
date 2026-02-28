@@ -8,12 +8,12 @@ export function PinnedSection({
   user,
   pinned,
   onTogglePin,
-  
+  isCurrentUser,
 }: {
   user: User;
   pinned: UserCollection[];
   onTogglePin: (id: number) => void;
-  
+  isCurrentUser: boolean;
 }) {
   if (pinned.length === 0) return null;
 
@@ -30,7 +30,7 @@ export function PinnedSection({
             user={user}
             collection={collection}
             onTogglePin={onTogglePin}
-            
+            isCurrentUser={isCurrentUser}
           />
         ))}
       </div>

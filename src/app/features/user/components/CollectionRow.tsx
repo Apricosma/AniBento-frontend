@@ -10,13 +10,17 @@ export function CollectionRow({
   user,
   collection,
   onTogglePin,
+  isCurrentUser,
   pinDisabled = false,
 }: {
   user: User;
   collection: UserCollection;
   onTogglePin: (id: number) => void;
+  isCurrentUser: boolean;
   pinDisabled?: boolean;
 }) {
+  const showPinControl = isCurrentUser || !!collection.isPinned;
+
   return (
     <Link
       href={`/user/${user.userName}/${collection.id}`}
@@ -32,28 +36,36 @@ export function CollectionRow({
           ) : null}
         </div>
 
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onTogglePin(collection.id);
-          }}
-          disabled={pinDisabled}
-          className="rounded p-1 hover:bg-accent/20 disabled:opacity-50"
-          aria-label={
-            collection.isPinned ? "Unpin collection" : "Pin collection"
-          }
-          title={collection.isPinned ? "Unpin" : "Pin"}
-        >
-          <Pin
-            className={`h-4 w-4 ${
-              collection.isPinned
-                ? "fill-current text-primary"
-                : "text-muted-foreground"
-            }`}
-          />
-        </button>
+        {showPinControl ? (
+          isCurrentUser ? (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onTogglePin(collection.id);
+              }}
+              disabled={pinDisabled}
+              className="rounded p-1 hover:bg-accent/20 disabled:opacity-50"
+              aria-label={
+                collection.isPinned ? "Unpin collection" : "Pin collection"
+              }
+              title={collection.isPinned ? "Unpin" : "Pin"}
+            >
+              <Pin
+                className={`h-4 w-4 ${
+                  collection.isPinned
+                    ? "fill-current text-primary"
+                    : "text-muted-foreground"
+                }`}
+              />
+            </button>
+          ) : (
+            <span aria-label="Pinned collection" title="Pinned">
+              <Pin className="h-4 w-4 fill-current text-primary" />
+            </span>
+          )
+        ) : null}
       </div>
     </Link>
   );

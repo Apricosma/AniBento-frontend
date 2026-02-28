@@ -17,13 +17,13 @@ export function AllSection({
   user,
   unpinned,
   onTogglePin,
-  
+  isCurrentUser,
   defaultOpen = true,
 }: {
   user: User;
   unpinned: UserCollection[];
   onTogglePin: (id: number) => void;
-  
+  isCurrentUser: boolean;
   defaultOpen?: boolean;
 }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -57,7 +57,7 @@ export function AllSection({
               user={user}
               collection={collection}
               onTogglePin={onTogglePin}
-              
+              isCurrentUser={isCurrentUser}
             />
           ))}
         </div>

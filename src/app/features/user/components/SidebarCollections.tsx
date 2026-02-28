@@ -2,6 +2,7 @@
 "use client";
 
 import type { User } from "../../auth/types";
+import { useAuth } from "../../auth/AuthProvider";
 import { useCollectionState, type UserCollection } from "../hooks/useCollectionsState";
 import { PinnedSection } from "./PinnedSection";
 import { AllSection } from "./AllSection";
@@ -13,6 +14,12 @@ export default function SidebarCollections({
   collections: UserCollection[];
   user: User;
 }) {
+  const { user: currentUser } = useAuth();
+  const isCurrentUser =
+    !!currentUser?.userName &&
+    !!user.userName &&
+    currentUser.userName.toLowerCase() === user.userName.toLowerCase();
+
   const { collections: local, pinned, unpinned, togglePin } =
     useCollectionState(collections);
 
@@ -26,14 +33,14 @@ export default function SidebarCollections({
         user={user}
         pinned={pinned}
         onTogglePin={togglePin}
-        
+        isCurrentUser={isCurrentUser}
       />
 
       <AllSection
         user={user}
         unpinned={unpinned}
         onTogglePin={togglePin}
-        
+        isCurrentUser={isCurrentUser}
         defaultOpen
       />
     </div>
