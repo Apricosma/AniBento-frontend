@@ -23,7 +23,7 @@ export default function TopBar() {
     <div className="w-full h-16 bg-card border-b border-accent flex items-center justify-between px-4">
       <Link
         href="/"
-        className="text-white text-3xl tracking-wider font-sour-gummy font-bold"
+        className="text-white text-3xl tracking-wider font-sour-gummy"
       >
         AniBento
       </Link>

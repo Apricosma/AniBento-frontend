@@ -24,7 +24,7 @@ export const coiny = Coiny({
 export const sourGummy = Sour_Gummy({
   variable: "--font-sour-gummy",
   subsets: ["latin"],
-  weight: "200"
+  weight: "700"
 })
 
 export const metadata: Metadata = {
