@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import UserIconMenu from "./UserIconMenu";
 import {
   Popover,
@@ -14,13 +13,11 @@ import {
 import { LoginForm } from "@/components/login-form/LoginForm";
 import { useAuth } from "@/app/features/auth/AuthProvider";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function TopBar() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   return (
     <div className="w-full h-16 bg-card border-b border-accent flex items-center justify-between px-4">
@@ -47,7 +44,13 @@ export default function TopBar() {
                 <PopoverDescription className="pb-2 text-md">
                   Please sign in to continue.
                 </PopoverDescription>
-                <LoginForm onSuccess={() => { setOpen(false); router.refresh(); }} />
+                <LoginForm
+                  successBehavior="reload"
+                  onSuccess={() => {
+                    setOpen(false);
+                    window.location.reload();
+                  }}
+                />
               </PopoverHeader>
             </PopoverContent>
           </Popover>

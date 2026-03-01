@@ -4,23 +4,39 @@ import { useState } from "react";
 import { useLogin } from "@/app/features/auth/useLogin";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import type { User } from "@/app/features/auth/types";
 
 type LoginFormProps = {
-  onSuccess?: () => void;
+  onSuccess?: (user: User) => void;
+  successBehavior?: "redirectToProfile" | "reload";
 };
 
-export function LoginForm({ onSuccess }: LoginFormProps) {
+export function LoginForm({
+  onSuccess,
+  successBehavior = "reload",
+}: LoginFormProps) {
   const { submit, isSubmitting, error } = useLogin();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const ok = await submit(email, password);
+    const user = await submit(email, password);
 
-    if (ok) {
-      onSuccess?.();
+    if (user) {
+      if (onSuccess) {
+        onSuccess(user);
+        return;
+      }
+
+      if (successBehavior === "redirectToProfile") {
+        router.push(`/user/${user.userName}`);
+        return;
+      }
+
       window.location.reload();
     }
   }
