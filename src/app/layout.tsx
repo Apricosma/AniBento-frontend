@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Coiny, Sour_Gummy } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "./features/auth/AuthProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -15,6 +15,18 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const coiny = Coiny({
+  variable: "--font-coiny",
+  subsets: ["latin"],
+  weight: "400"
+})
+
+export const sourGummy = Sour_Gummy({
+  variable: "--font-sour-gummy",
+  subsets: ["latin"],
+  weight: "700"
+})
+
 export const metadata: Metadata = {
   title: "AniBento",
   description: "A BentoBox for your anime collection",
@@ -28,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${coiny.variable} ${sourGummy.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"

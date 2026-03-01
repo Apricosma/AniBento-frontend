@@ -89,6 +89,7 @@
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
+  /* --primary: oklch(52.958% 0.16787 24.952); */
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -137,4 +138,12 @@
   .animate-pulse {
     animation: pulse 2.5s ease-in-out infinite;
   }
+}
+
+.font-coiny {
+  font-family: var(--font-coiny);
+}
+
+.font-sour-gummy {
+  font-family: var(--font-sour-gummy);
 }
