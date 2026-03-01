@@ -52,7 +52,7 @@ export default function CollectionHighlightsCard({
                   className="pl-4 basis-full sm:basis-1/3 lg:basis-1/3 min-w-0"
                 >
                   <div className="flex justify-center min-w-0">
-                    <div className="relative w-40 sm:w-44 lg:w-48 aspect-[2/3] overflow-hidden rounded-xl">
+                    <div className="relative w-40 sm:w-44 lg:w-48 aspect-2/3 overflow-hidden rounded-xl">
                       <Image
                         src={item.mediaImageUrl}
                         alt={item.title}
