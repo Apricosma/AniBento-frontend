@@ -139,3 +139,11 @@
     animation: pulse 2.5s ease-in-out infinite;
   }
 }
+
+.font-coiny {
+  font-family: var(--font-coiny);
+}
+
+.font-sour-gummy {
+  font-family: var(--font-sour-gummy);
+}

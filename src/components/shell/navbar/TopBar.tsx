@@ -21,9 +21,41 @@ export default function TopBar() {
 
   return (
     <div className="w-full h-16 bg-card border-b border-accent flex items-center justify-between px-4">
-      <Link href={`/user/${user?.userName}`} className="text-white text-lg">
-        TopBar
+      <Link
+        href="/"
+        className="text-white text-3xl tracking-wider font-sour-gummy font-bold"
+      >
+        AniBento
       </Link>
+
+      <div className="">
+        <ul className="flex space-x-8">
+          <li>
+            <Link
+              href={`/user/${user?.userName}`}
+              className="text-muted-foreground hover:text-white transition-colors duration-300"
+            >
+              My Profile
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/find"
+              className="text-muted-foreground hover:text-white transition-colors duration-300"
+            >
+              Find
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/explore"
+              className="text-muted-foreground hover:text-white transition-colors duration-300"
+            >
+              Explore Media
+            </Link>
+          </li>
+        </ul>
+      </div>
 
       <div className="flex items-center gap-3">
         {!user && (
