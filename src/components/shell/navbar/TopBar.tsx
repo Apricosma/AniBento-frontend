@@ -32,7 +32,7 @@ export default function TopBar() {
         <ul className="flex space-x-8">
           <li>
             <Link
-              href={`/user/${user?.userName}`}
+              href={user ? `/user/${user?.userName}` : "/signin"}
               className="text-muted-foreground hover:text-white transition-colors duration-300"
             >
               My Profile
