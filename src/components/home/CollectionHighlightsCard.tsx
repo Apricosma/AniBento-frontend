@@ -54,7 +54,7 @@ export default function CollectionHighlightsCard({
                 >
                   <div className="flex justify-center min-w-0">
                     <div className="relative w-40 sm:w-44 lg:w-48 aspect-2/3 overflow-hidden rounded-xl">
-                    {/* TODO hook this up to an actual database query */}
+                      {/* TODO hook this up to an actual database query */}
                       <Link
                         href={`/media/${item.id}`}
                         className="absolute inset-0"

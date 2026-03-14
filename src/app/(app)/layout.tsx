@@ -13,7 +13,8 @@ export default async function AppLayout({
   return (
     <>
       <TopBar />
-      <main className="flex-1 p-4 overflow-hidden min-h-0">
+      <main className="flex-1 p-4 pt-20 overflow-hidden min-h-0 ">
+        <div className="bg-aurora"></div>
         <div className="flex gap-4 h-full min-w-0 min-h-0">
           <Sidebar>{sidebar}</Sidebar>
           {/* <div className="min-w-0 flex-1 overflow-hidden">{children}</div> */}

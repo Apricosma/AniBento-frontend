@@ -20,7 +20,7 @@ export default function TopBar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="w-full h-16 bg-card border-b border-accent flex items-center justify-between px-4">
+    <div className="fixed top-0 left-0 right-0 z-50 h-16 bg-card/90 backdrop-blur-3xl border-b border-white/10 flex items-center justify-between px-4">
       <Link
         href="/"
         className="text-white text-3xl tracking-wider font-sour-gummy"

@@ -71,8 +71,9 @@ export default async function Home() {
   return (
     <>
       <TopBar />
-      <main className="flex-1 overflow-auto pt-8">
-        <div className="mx-auto w-full max-w-6xl">
+      <main className="flex-1 overflow-auto pt-20">
+        <div className="mx-auto w-full max-w-6xl relative">
+          <div className="bg-aurora"></div>
           <div className="grid gap-6 lg:grid-cols-12">
             <WelcomeCard user={user} />
             <DiscoverCard />
