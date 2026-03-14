@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef } from "react";
+import Link from "next/link";
 
 type HighlightItem = {
   id: number | string;
@@ -53,14 +54,20 @@ export default function CollectionHighlightsCard({
                 >
                   <div className="flex justify-center min-w-0">
                     <div className="relative w-40 sm:w-44 lg:w-48 aspect-2/3 overflow-hidden rounded-xl">
-                      <Image
-                        src={item.mediaImageUrl}
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 160px, (max-width: 1024px) 176px, 192px"
-                        priority={i === 0}
-                      />
+                    {/* TODO hook this up to an actual database query */}
+                      <Link
+                        href={`/media/${item.id}`}
+                        className="absolute inset-0"
+                      >
+                        <Image
+                          src={item.mediaImageUrl}
+                          alt={item.title}
+                          fill
+                          className="object-cover hover:scale-105 transition-transform duration-300"
+                          sizes="(max-width: 640px) 160px, (max-width: 1024px) 176px, 192px"
+                          priority={i === 0}
+                        />
+                      </Link>
                     </div>
                   </div>
                 </CarouselItem>

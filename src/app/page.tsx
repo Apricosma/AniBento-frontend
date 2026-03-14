@@ -10,8 +10,12 @@ import {
   Grid2X2PlusIcon,
   LockIcon,
   ShareIcon,
+  ThumbsDownIcon,
+  ThumbsUp,
+  ThumbsUpIcon,
 } from "lucide-react";
 import Image from "next/image";
+import { Separator } from "@/components/ui/separator";
 
 const items = [
   {
@@ -79,8 +83,8 @@ export default async function Home() {
 
         <div className="border-t mx-auto max-w-6xl mt-8"></div>
 
-        <div className="flex max-w-6xl mx-auto gap-4">
-          <Card className="w-1/3 h-92 max-w-6xl mx-auto mt-8 p-8 text-left flex flex-col">
+        <div className="flex max-w-6xl mx-auto flex-col lg:flex-row gap-6">
+          <Card className="w-full lg:w-1/3 min-h-92 mt-8 p-8 text-left flex flex-col">
             <h2 className="text-3xl font-semibold">
               Collect your favourite shows and more
             </h2>
@@ -91,7 +95,7 @@ export default async function Home() {
             <Grid2X2PlusIcon className="w-16 h-16 mt-auto self-center text-blue-300" />
           </Card>
 
-          <Card className="w-1/3 h-92 max-w-6xl mx-auto mt-8 p-8 text-left flex flex-col">
+          <Card className="w-full lg:w-1/3 min-h-92 mt-8 p-8 text-left flex flex-col">
             <h2 className="text-3xl font-semibold">
               Share your Bento with friends and the community
             </h2>
@@ -102,7 +106,7 @@ export default async function Home() {
             <ShareIcon className="w-16 h-16 mt-auto self-center text-blue-300" />
           </Card>
 
-          <Card className="w-1/3 h-92 max-w-6xl mx-auto mt-8 p-8 text-left flex flex-col">
+          <Card className="w-full lg:w-1/3 min-h-92 mt-8 p-8 text-left flex flex-col">
             <h2 className="text-3xl font-semibold">
               Custom privacy settings for your Bento
             </h2>
@@ -113,9 +117,10 @@ export default async function Home() {
             <LockIcon className="w-16 h-16 mt-auto self-center text-blue-300" />
           </Card>
         </div>
-        <div className="flex justify-center items-center max-w-6xl mx-auto gap-4 mt-4">
-          <Card className="w-3/5 h-96 p-8 text-left flex flex-row">
-            <div className="flex flex-col gap-8">
+
+        <div className="flex flex-col lg:flex-row justify-center items-stretch max-w-6xl mx-auto gap-6 mt-6">
+          <Card className="w-full lg:w-3/5 min-h-96 p-8 text-left flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col gap-8 flex-1">
               <h2 className="text-3xl font-semibold">
                 Track your watch history and progress
               </h2>
@@ -125,7 +130,7 @@ export default async function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center shrink-0">
               <div className="bg-card h-72 w-48 relative rounded-t-md overflow-hidden">
                 <Image
                   src="/154528l.jpg"
@@ -144,14 +149,100 @@ export default async function Home() {
               </div>
             </div>
           </Card>
-          <Card className="w-2/5 h-96 max-w-6xl mx-auto p-8 text-center"></Card>
+
+          <Card className="w-full lg:w-2/5 min-h-96 p-8 text-center">
+            <div className="flex flex-col gap-8 flex-1">
+              <h2 className="text-3xl font-semibold">Rank your favourites</h2>
+              <p className="text-lg text-muted-foreground">
+                Easily rank your favourites, and see what your friends think is
+                hot or not.
+              </p>
+              <div className="flex items-center justify-center gap-8">
+                <div className="border-2  rounded-full p-6 hover:border-blue-300/50 transition-colors duration-300 ease-in-out group cursor-pointer ">
+                  <ThumbsUpIcon
+                    size={48}
+                    strokeWidth={1.5}
+                    className="-translate-y-1 group-hover:text-blue-300 transition-all duration-300 ease-in-out group-hover:-rotate-6 "
+                  />
+                </div>
+                <div className="border-2 rounded-full p-6 ml-4 hover:border-blue-300/50 transition-colors duration-300 ease-in-out group cursor-pointer">
+                  <ThumbsDownIcon
+                    size={48}
+                    strokeWidth={1.5}
+                    className="translate-y-1 group-hover:text-blue-300 transition-all duration-300 ease-in-out group-hover:-rotate-6 "
+                  />
+                </div>
+              </div>
+            </div>
+          </Card>
         </div>
-        <div className="bg-black w-full h-96 py-8 mt-8 border-t">
-          <div className="max-w-6xl mx-auto flex flex-col">
-            <div className="flex flex-col space-y-1">
-              <p>wawa</p>
-              <p>wewe</p>
-              <p>wowo</p>
+        <div className="bg-black w-full mt-16 border-t">
+          <div className="max-w-6xl mx-auto px-6 py-12 sm:px-8 lg:px-10">
+            <div className="flex flex-col gap-10">
+              {/* Top section */}
+              <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="flex flex-col space-y-1">
+                  <h2 className="text-2xl font-semibold font-sour-gummy tracking-wider">
+                    AniBento
+                  </h2>
+                  <p className="text-sm text-muted-foreground max-w-xs">
+                    Placeholder
+                  </p>
+                </div>
+
+                <div className="flex flex-col space-y-2 text-muted-foreground">
+                  <h2 className="text-foreground font-semibold text-lg">
+                    Title
+                  </h2>
+                  <div className="space-y-1">
+                    <p>Text 1</p>
+                    <p>Text 2</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col space-y-2 text-muted-foreground">
+                  <h2 className="text-foreground font-semibold text-lg">
+                    Title
+                  </h2>
+                  <div className="space-y-1">
+                    <p>Text 1</p>
+                    <p>Text 2</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col space-y-2 text-muted-foreground">
+                  <h2 className="text-foreground font-semibold text-lg">
+                    Title
+                  </h2>
+                  <div className="space-y-1">
+                    <p>Text 1</p>
+                    <p>Text 2</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom section */}
+              <div className="flex flex-col gap-4">
+                <Separator />
+                <div className="flex flex-col gap-3 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+                  <p className="leading-relaxed">
+                    Built with Next.js, C#, and a lot of love by{" "}
+                    <a
+                      href="https://github.com/Apricosma"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline hover:text-blue-300 transition-colors"
+                    >
+                      Apricosma
+                    </a>
+                  </p>
+
+                  <p>
+                    &copy; {new Date().getFullYear()} Apricosma. All rights
+                    reserved.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
