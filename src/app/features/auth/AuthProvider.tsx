@@ -11,7 +11,7 @@ import type { User } from "./types";
 type AuthState = {
   user: User | null;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User>;
   logout: () => Promise<void>;
   refresh: () => Promise<void>;
 };
@@ -34,12 +34,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  async function handleLogin(email: string, password: string) {
+  async function handleLogin(email: string, password: string): Promise<User> {
     setIsLoading(true);
     try {
       await apiLogin(email, password);
       const userData = await fetchCurrentUser();
       setUser(userData);
+      return userData;
     } finally {
       setIsLoading(false);
     }

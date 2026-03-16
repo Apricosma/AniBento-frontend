@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import UserIconMenu from "./UserIconMenu";
 import {
   Popover,
@@ -14,19 +13,49 @@ import {
 import { LoginForm } from "@/components/login-form/LoginForm";
 import { useAuth } from "@/app/features/auth/AuthProvider";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function TopBar() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   return (
-    <div className="w-full h-16 bg-card border-b border-accent flex items-center justify-between px-4">
-      <Link href={`/user/${user?.userName}`} className="text-white text-lg">
-        TopBar
+    <div className="fixed top-0 left-0 right-0 z-50 h-16 bg-card/90 backdrop-blur-3xl border-b border-white/10 flex items-center justify-between px-4">
+      <Link
+        href="/"
+        className="text-white text-3xl tracking-wider font-sour-gummy"
+      >
+        AniBento
       </Link>
+
+      <div className="">
+        <ul className="flex space-x-8">
+          <li>
+            <Link
+              href={user ? `/user/${user?.userName}` : "/signin"}
+              className="text-muted-foreground hover:text-white transition-colors duration-300"
+            >
+              My Profile
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/find"
+              className="text-muted-foreground hover:text-white transition-colors duration-300"
+            >
+              Find
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/explore"
+              className="text-muted-foreground hover:text-white transition-colors duration-300"
+            >
+              Explore Media
+            </Link>
+          </li>
+        </ul>
+      </div>
 
       <div className="flex items-center gap-3">
         {!user && (
@@ -47,7 +76,13 @@ export default function TopBar() {
                 <PopoverDescription className="pb-2 text-md">
                   Please sign in to continue.
                 </PopoverDescription>
-                <LoginForm onSuccess={() => { setOpen(false); router.refresh(); }} />
+                <LoginForm
+                  successBehavior="reload"
+                  onSuccess={() => {
+                    setOpen(false);
+                    window.location.reload();
+                  }}
+                />
               </PopoverHeader>
             </PopoverContent>
           </Popover>
