@@ -73,7 +73,7 @@ export default async function Home() {
       <TopBar />
       <main className="flex-1 overflow-auto pt-22">
         <div className="  px-6 xl:px-0">
-          <div className="mx-auto w-full max-w-6xl relative overflow-hidden">
+          <div className="mx-auto w-full max-w-6xl relative overflow-hidden lg:overflow-visible">
             <div className="bg-aurora "></div>
             <div className="grid gap-6 lg:grid-cols-12">
               <WelcomeCard user={user} />
