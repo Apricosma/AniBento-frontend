@@ -62,3 +62,14 @@ export async function fetchCollectionDetails(
     },
   );
 }
+
+export async function createCollection(name: string, isPrivate: boolean, description?: string) {
+  return apiFetch<UserCollectionSummary>(`/collections/`, {
+    method: "POST",
+    body: JSON.stringify({
+      name,
+      isPrivate,
+      description,
+    }),
+  });
+}

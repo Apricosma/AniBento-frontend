@@ -1,6 +1,12 @@
 "use client";
 
-import { useMemo, useState, useOptimistic, useTransition, useCallback } from "react";
+import {
+  useMemo,
+  useState,
+  useOptimistic,
+  useTransition,
+  useCallback,
+} from "react";
 import { togglePinCollection } from "../api";
 
 export type UserCollection = {
@@ -13,25 +19,28 @@ export type UserCollection = {
 type OptimisticPin = { id: number; isPinned: boolean } | null;
 
 export function useCollectionState(initialCollections: UserCollection[]) {
-  const [collections, setCollections] = useState<UserCollection[]>(initialCollections);
+  const [collections, setCollections] =
+    useState<UserCollection[]>(initialCollections);
   const [optimisticPin, setOptimisticPin] = useOptimistic<OptimisticPin>(null);
   const [, startTransition] = useTransition();
 
   const effectiveCollections = useMemo(() => {
     if (!optimisticPin) return collections;
     return collections.map((c) =>
-      c.id === optimisticPin.id ? { ...c, isPinned: optimisticPin.isPinned } : c
+      c.id === optimisticPin.id
+        ? { ...c, isPinned: optimisticPin.isPinned }
+        : c,
     );
   }, [collections, optimisticPin]);
 
   const pinned = useMemo(
     () => effectiveCollections.filter((c) => !!c.isPinned),
-    [effectiveCollections]
+    [effectiveCollections],
   );
 
   const unpinned = useMemo(
     () => effectiveCollections.filter((c) => !c.isPinned),
-    [effectiveCollections]
+    [effectiveCollections],
   );
 
   const togglePin = useCallback(
@@ -54,18 +63,27 @@ export function useCollectionState(initialCollections: UserCollection[]) {
       }
 
       setCollections((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, isPinned: newIsPinned } : c))
+        prev.map((c) => (c.id === id ? { ...c, isPinned: newIsPinned } : c)),
       );
 
       startTransition(() => setOptimisticPin(null));
     },
-    [effectiveCollections, setOptimisticPin, startTransition]
+    [effectiveCollections, setOptimisticPin, startTransition],
   );
+
+  const addCollection = useCallback((collection: UserCollection) => {
+    setCollections((prev) => {
+      const exists = prev.some((c) => c.id === collection.id);
+      if (exists) return prev;
+      return [...prev, collection];
+    });
+  }, []);
 
   return {
     collections: effectiveCollections,
     pinned,
     unpinned,
     togglePin,
+    addCollection,
   };
 }

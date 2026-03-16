@@ -54,24 +54,3 @@ export async function fetchMyCollections() {
     },
   });
 }
-
-export async function createCollection(
-  name: string,
-  isPrivate: boolean,
-  description?: string,
-) {
-  const cookieStore = await cookies();
-  const cookieHeader = cookieStore
-    .getAll()
-    .map(({ name, value }) => `${name}=${value}`)
-    .join("; ");
-
-  return apiFetch(`/collections/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: cookieHeader,
-    },
-    body: JSON.stringify({ name, description, isPrivate }),
-  });
-}

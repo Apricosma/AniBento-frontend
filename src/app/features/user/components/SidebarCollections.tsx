@@ -42,6 +42,7 @@ export default function SidebarCollections({
     pinned,
     unpinned,
     togglePin,
+    addCollection,
   } = useCollectionState(collections);
 
   if (local.length === 0) {
@@ -59,7 +60,12 @@ export default function SidebarCollections({
           </Button>
         </PopoverTrigger>
         <PopoverContent side="right">
-          <CreateCollectionForum />
+          <CreateCollectionForum
+            onCreate={(collection) => {
+              addCollection(collection);
+              setOpen(false);
+            }}
+          />
         </PopoverContent>
       </Popover>
       <PinnedSection
