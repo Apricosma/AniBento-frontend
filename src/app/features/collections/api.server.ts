@@ -2,10 +2,7 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { apiFetch } from "@/lib/fetch";
-import type {
-  UserCollectionDetails,
-  UserCollectionSummary,
-} from "./api";
+import type { UserCollectionDetails, UserCollectionSummary } from "./api";
 
 export async function fetchUserCollections(userName: string) {
   const cookieStore = await cookies();
@@ -55,5 +52,26 @@ export async function fetchMyCollections() {
     headers: {
       Cookie: cookieHeader,
     },
+  });
+}
+
+export async function createCollection(
+  name: string,
+  isPrivate: boolean,
+  description?: string,
+) {
+  const cookieStore = await cookies();
+  const cookieHeader = cookieStore
+    .getAll()
+    .map(({ name, value }) => `${name}=${value}`)
+    .join("; ");
+
+  return apiFetch(`/collections/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: cookieHeader,
+    },
+    body: JSON.stringify({ name, description, isPrivate }),
   });
 }
