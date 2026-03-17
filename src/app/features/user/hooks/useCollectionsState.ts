@@ -6,6 +6,7 @@ import {
   useOptimistic,
   useTransition,
   useCallback,
+  useEffect,
 } from "react";
 import { togglePinCollection } from "../api";
 
@@ -23,6 +24,10 @@ export function useCollectionState(initialCollections: UserCollection[]) {
     useState<UserCollection[]>(initialCollections);
   const [optimisticPin, setOptimisticPin] = useOptimistic<OptimisticPin>(null);
   const [, startTransition] = useTransition();
+
+  useEffect(() => {
+    setCollections(initialCollections);
+  }, [initialCollections]);
 
   const effectiveCollections = useMemo(() => {
     if (!optimisticPin) return collections;
@@ -55,7 +60,6 @@ export function useCollectionState(initialCollections: UserCollection[]) {
       });
 
       const result = await togglePinCollection(id);
-      console.log("Toggle pin result:", result);
 
       if (!result?.ok) {
         startTransition(() => setOptimisticPin(null));
@@ -79,11 +83,16 @@ export function useCollectionState(initialCollections: UserCollection[]) {
     });
   }, []);
 
+  const removeCollection = useCallback((collectionId: number) => {
+    setCollections((prev) => prev.filter((c) => c.id !== collectionId));
+  }, []);
+
   return {
     collections: effectiveCollections,
     pinned,
     unpinned,
     togglePin,
     addCollection,
+    removeCollection,
   };
 }

@@ -45,21 +45,20 @@ export default function SidebarCollections({
     addCollection,
   } = useCollectionState(collections);
 
-  if (local.length === 0) {
-    return (
-      <p className="text-sm text-muted-foreground">No collections found</p>
-    );
-  }
-
   return (
-    <div className="flex flex-col gap-4 w-full pt-4">
+    <div className="flex h-full min-h-0 flex-col gap-4">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" size="sm" className="w-full">
+          <Button variant="outline" size="sm" className="w-full shrink-0">
             Create New Collection
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="right">
+
+        <PopoverContent
+          side="right"
+          sideOffset={4}
+          className="w-80 border border-zinc-700 shadow-2xl shadow-black/60"
+        >
           <CreateCollectionForum
             onCreate={(collection) => {
               addCollection(collection);
@@ -68,20 +67,29 @@ export default function SidebarCollections({
           />
         </PopoverContent>
       </Popover>
-      <PinnedSection
-        user={user}
-        pinned={pinned}
-        onTogglePin={togglePin}
-        isCurrentUser={isCurrentUser}
-      />
 
-      <AllSection
-        user={user}
-        unpinned={unpinned}
-        onTogglePin={togglePin}
-        isCurrentUser={isCurrentUser}
-        defaultOpen
-      />
+      <div className=" overflow-y-auto pt-4 pr-3 -mr-3">
+        {local.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No collections found</p>
+        ) : (
+          <>
+            <PinnedSection
+              user={user}
+              pinned={pinned}
+              onTogglePin={togglePin}
+              isCurrentUser={isCurrentUser}
+            />
+
+            <AllSection
+              user={user}
+              unpinned={unpinned}
+              onTogglePin={togglePin}
+              isCurrentUser={isCurrentUser}
+              defaultOpen
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 }

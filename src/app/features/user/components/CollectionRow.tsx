@@ -53,10 +53,10 @@ export function CollectionRow({
               title={collection.isPinned ? "Unpin" : "Pin"}
             >
               <Pin
-                className={`h-4 w-4 ${
+                className={`h-4 w-4 hover:scale-110 ${
                   collection.isPinned
-                    ? "fill-current text-primary"
-                    : "text-muted-foreground"
+                    ? "fill-current text-primary hover:fill-none transition-all"
+                    : "text-muted-foreground hover:fill-current hover:text-current transition-all"
                 }`}
               />
             </button>

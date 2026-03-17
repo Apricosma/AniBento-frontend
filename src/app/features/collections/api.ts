@@ -1,9 +1,5 @@
 import { apiFetch } from "@/lib/fetch";
-import {
-  FetchMediaListParams,
-  MediaListItem,
-  PagedResponse,
-} from "./types";
+import { FetchMediaListParams, MediaListItem, PagedResponse } from "./types";
 
 export type UserCollectionSummary = {
   id: number;
@@ -63,7 +59,11 @@ export async function fetchCollectionDetails(
   );
 }
 
-export async function createCollection(name: string, isPrivate: boolean, description?: string) {
+export async function createCollection(
+  name: string,
+  isPrivate: boolean,
+  description?: string,
+) {
   return apiFetch<UserCollectionSummary>(`/collections/`, {
     method: "POST",
     body: JSON.stringify({
@@ -71,5 +71,11 @@ export async function createCollection(name: string, isPrivate: boolean, descrip
       isPrivate,
       description,
     }),
+  });
+}
+
+export async function deleteCollection(collectionId: number) {
+  return apiFetch(`/collections/${collectionId}`, {
+    method: "DELETE",
   });
 }

@@ -3,6 +3,8 @@ import "server-only";
 import { cookies } from "next/headers";
 import { apiFetch } from "@/lib/fetch";
 import type { UserCollectionDetails, UserCollectionSummary } from "./api";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function fetchUserCollections(userName: string) {
   const cookieStore = await cookies();

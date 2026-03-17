@@ -15,7 +15,7 @@ export default function CreateCollectionForm({
   onCreate,
 }: CreateCollectionFormProps) {
   async function handleSubmit(formData: FormData) {
-    const name = formData.get("name")?.toString().trim() ?? "";
+    const name = formData.get("collectionName")?.toString().trim() ?? "";
     const description =
       formData.get("description")?.toString().trim() || undefined;
 
@@ -24,6 +24,7 @@ export default function CreateCollectionForm({
     if (!name) return;
 
     const created = await createCollection(name, isPrivate, description);
+    console.log("created:", created);
     onCreate?.(created);
   }
 
@@ -39,7 +40,7 @@ export default function CreateCollectionForm({
 
         <Input
           id="collection-name"
-          name="name"
+          name="collectionName"
           placeholder="Enter collection name"
           required
           autoFocus
