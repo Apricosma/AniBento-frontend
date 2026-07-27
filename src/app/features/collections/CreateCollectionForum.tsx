@@ -3,29 +3,32 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { createCollection } from "./api";
 import { Checkbox } from "@/components/ui/checkbox";
-import { UserCollection } from "../user/hooks/useCollectionsState";
+import { useCreateCollection } from "./hooks/useCollectionMutations";
 
 type CreateCollectionFormProps = {
-  onCreate?: (collection: UserCollection) => void;
+  userName?: string;
+  onSuccess?: () => void;
 };
 
 export default function CreateCollectionForm({
-  onCreate,
+  userName,
+  onSuccess,
 }: CreateCollectionFormProps) {
-  async function handleSubmit(formData: FormData) {
+  const { mutate: createCollection, isPending } = useCreateCollection(userName);
+
+  function handleSubmit(formData: FormData) {
     const name = formData.get("collectionName")?.toString().trim() ?? "";
     const description =
       formData.get("description")?.toString().trim() || undefined;
-
     const isPrivate = formData.get("isPrivate") != null;
 
     if (!name) return;
 
-    const created = await createCollection(name, isPrivate, description);
-    console.log("created:", created);
-    onCreate?.(created);
+    createCollection(
+      { name, isPrivate, description },
+      { onSuccess },
+    );
   }
 
   return (
@@ -71,8 +74,12 @@ export default function CreateCollectionForm({
           </Field>
         </FieldGroup>
 
-        <Button type="submit" className="mt-4 w-full bg-primary">
-          Create Collection
+        <Button
+          type="submit"
+          disabled={isPending}
+          className="mt-4 w-full bg-primary"
+        >
+          {isPending ? "Creating..." : "Create Collection"}
         </Button>
       </Field>
     </form>

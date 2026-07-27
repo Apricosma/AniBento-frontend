@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { PencilLineIcon, Trash2Icon } from "lucide-react";
 import {
@@ -9,10 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useState } from "react";
-import {
-  deleteCollectionAction,
-  // updateCollectionAction,
-} from "../../actions";
+import { useDeleteCollection } from "../../hooks/useCollectionMutations";
 
 type FilterButtonGroupProps = {
   collectionName: string;
@@ -24,12 +21,25 @@ export default function FilterButtonGroup({
   collectionDescription,
 }: FilterButtonGroupProps) {
   const params = useParams();
+  const router = useRouter();
 
   const collectionId = Number(params.collectionId);
   const userName = String(params.userName ?? "");
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+
+  const { mutate: deleteCollection, isPending: isDeleting } =
+    useDeleteCollection(userName);
+
+  function handleDelete() {
+    deleteCollection(collectionId, {
+      onSuccess: () => {
+        setDeleteOpen(false);
+        router.push(`/user/${userName}`);
+      },
+    });
+  }
 
   return (
     <div className="flex items-center gap-1">
@@ -118,13 +128,7 @@ export default function FilterButtonGroup({
               </p>
             </div>
 
-            <form
-              action={deleteCollectionAction}
-              className="flex justify-end gap-2"
-            >
-              <input type="hidden" name="userName" value={userName} />
-              <input type="hidden" name="collectionId" value={collectionId} />
-
+            <div className="flex justify-end gap-2">
               <Button
                 type="button"
                 variant="outline"
@@ -132,10 +136,15 @@ export default function FilterButtonGroup({
               >
                 Cancel
               </Button>
-              <Button type="submit" variant="destructive">
-                Delete
+              <Button
+                type="button"
+                variant="destructive"
+                disabled={isDeleting}
+                onClick={handleDelete}
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
               </Button>
-            </form>
+            </div>
           </div>
         </PopoverContent>
       </Popover>

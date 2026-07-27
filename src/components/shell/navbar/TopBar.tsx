@@ -14,10 +14,13 @@ import { LoginForm } from "@/components/login-form/LoginForm";
 import { useAuth } from "@/app/features/auth/AuthProvider";
 import { useState } from "react";
 import Link from "next/link";
+import type { User } from "@/app/features/auth/types";
 
-export default function TopBar() {
-  const { user } = useAuth();
+export default function TopBar({ initialUser }: { initialUser?: User | null }) {
+  const { user, isLoading } = useAuth();
   const [open, setOpen] = useState(false);
+
+  const displayUser = isLoading ? (initialUser ?? null) : user;
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 h-16 bg-card/90 backdrop-blur-3xl border-b border-white/10 flex items-center justify-between px-4">
@@ -32,7 +35,7 @@ export default function TopBar() {
         <ul className="flex space-x-8">
           <li>
             <Link
-              href={user ? `/user/${user?.userName}` : "/signin"}
+              href={displayUser ? `/user/${displayUser.userName}` : "/signin"}
               className="text-muted-foreground hover:text-white transition-colors duration-300"
             >
               My Profile
@@ -58,7 +61,7 @@ export default function TopBar() {
       </div>
 
       <div className="flex items-center gap-3">
-        {!user && (
+        {!displayUser && !isLoading && (
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline" className="mr-2">
@@ -87,7 +90,7 @@ export default function TopBar() {
             </PopoverContent>
           </Popover>
         )}
-        {user && <UserIconMenu />}
+        {displayUser && <UserIconMenu initialUser={initialUser} />}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ export type UserCollectionSummary = {
   id: number;
   name: string;
   description?: string | null;
+  isPinned?: boolean;
 };
 
 export type CollectionItemResponse = {
@@ -78,4 +79,8 @@ export async function deleteCollection(collectionId: number) {
   return apiFetch(`/collections/${collectionId}`, {
     method: "DELETE",
   });
+}
+
+export async function fetchMyCollections() {
+  return apiFetch<UserCollectionSummary[]>(`/collections/`);
 }

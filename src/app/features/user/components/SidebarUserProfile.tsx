@@ -1,22 +1,25 @@
 import Image from "next/image";
 import { User } from "@/app/features/auth/types";
+import type { UserCollectionSummary } from "@/app/features/collections/api";
 import Link from "next/link";
 import SidebarCollections from "./SidebarCollections";
 
 type SidebarUserProfileProps = {
   user: User;
-  collections?: UserCollection[];
+  initialCollections?: UserCollectionSummary[];
+  isOwner?: boolean;
 };
 
 export default function SidebarUserProfile({
   user,
-  collections = [],
+  initialCollections = [],
+  isOwner = false,
 }: SidebarUserProfileProps) {
   return (
     <div className="flex h-full min-h-0 flex-col">
       <div className="shrink-0 border-b border-border p-4">
         <div className="flex flex-col items-center gap-4">
-          <div className="relative h-48 w-48 flex-shrink-0 overflow-hidden rounded-2xl ring-2 ring-border">
+          <div className="relative h-48 w-48 shrink-0 overflow-hidden rounded-2xl ring-2 ring-border">
             {user.profilePictureUrl ? (
               <Link
                 href={`/user/${user.userName}`}
@@ -40,14 +43,14 @@ export default function SidebarUserProfile({
             </h3>
 
             <p className="mt-1 text-sm text-muted-foreground">
-              {user.bio || "No bio yet"}
+              {(user as { bio?: string | null }).bio || "No bio yet"}
             </p>
           </div>
         </div>
       </div>
 
       <div className="min-h-0 flex-1">
-        <SidebarCollections collections={collections} user={user} />
+        <SidebarCollections initialCollections={initialCollections} user={user} isOwner={isOwner} />
       </div>
     </div>
   );
