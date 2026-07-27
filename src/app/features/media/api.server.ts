@@ -14,6 +14,8 @@ export type MediaDetails = {
   }[];
 };
 
+
 export default async function fetchMediaDetails(mediaId: number) {
   return apiFetch<MediaDetails | null>(`/media/${mediaId}`);
 }
+

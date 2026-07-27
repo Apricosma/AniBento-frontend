@@ -8,8 +8,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useState } from "react";
 import { useDeleteCollection } from "../../hooks/useCollectionMutations";
+import ItemSearchDialog from "../itemsearchdialog/ItemSearchDialog";
 
 type FilterButtonGroupProps = {
   collectionName: string;
@@ -28,6 +37,7 @@ export default function FilterButtonGroup({
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
 
   const { mutate: deleteCollection, isPending: isDeleting } =
     useDeleteCollection(userName);
@@ -43,9 +53,15 @@ export default function FilterButtonGroup({
 
   return (
     <div className="flex items-center gap-1">
-      <Button type="button" size="icon" variant="ghost" aria-label="Add New" className="hover:cursor-pointer hover:text-brand">
-        <PlusIcon className="size-8"></PlusIcon>
-      </Button>
+      <ItemSearchDialog
+        icon={
+          <PlusIcon
+            size="36"
+            strokeWidth={1.75}
+            className="hover:text-brand hover:cursor-pointer"
+          />
+        }
+      />
       <Popover open={editOpen} onOpenChange={setEditOpen}>
         <PopoverTrigger asChild>
           <Button
