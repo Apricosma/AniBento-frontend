@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { PencilLineIcon, Trash2Icon } from "lucide-react";
+import { PencilLineIcon, Trash2Icon, PlusIcon } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -43,9 +43,17 @@ export default function FilterButtonGroup({
 
   return (
     <div className="flex items-center gap-1">
+      <Button type="button" size="icon" variant="ghost" aria-label="Add New" className="hover:cursor-pointer hover:text-brand">
+        <PlusIcon className="size-8"></PlusIcon>
+      </Button>
       <Popover open={editOpen} onOpenChange={setEditOpen}>
         <PopoverTrigger asChild>
-          <Button type="button" size="icon" variant="ghost" aria-label="Edit collection">
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            aria-label="Edit collection"
+          >
             <PencilLineIcon className="size-6" />
           </Button>
         </PopoverTrigger>
