@@ -4,30 +4,22 @@ import ContentCard from "@/app/features/media/components/ContentCard";
 import FilterBar from "@/app/features/collections/components/filterbar/FilterBar";
 import Link from "next/link";
 import type { UserCollectionDetails } from "./api";
-import { fetchCollectionDetails } from "./api";
-import { useQuery } from "@tanstack/react-query";
-import CollectionGridSkeleton from "./CollectionGridSkeleton";
+import { useSuspenseCollectionDetails } from "./hooks/useCollections";
 
 interface CollectionGridViewProps {
   userName: string;
   collectionId: number;
-  initialCollectionDetails?: UserCollectionDetails | null;
+  initialData?: UserCollectionDetails | null;
 }
 
 export default function CollectionGridView({
   userName,
   collectionId,
-  initialCollectionDetails,
+  initialData,
 }: CollectionGridViewProps) {
-  const { data, isPending, error } = useQuery({
-    queryKey: ["collection-details", userName, collectionId],
-    queryFn: () => fetchCollectionDetails(userName, collectionId),
-    initialData: initialCollectionDetails ?? undefined,
-  });
+  const { data } = useSuspenseCollectionDetails(userName, collectionId, initialData);
 
-  if (isPending) return <CollectionGridSkeleton />;
   if (!data) return <p>Collection not found</p>;
-  if (error) return <p>Error</p>;
 
   return (
     <div className="flex flex-col h-full">

@@ -2,10 +2,7 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { apiFetch } from "@/lib/fetch";
-import type {
-  UserCollectionDetails,
-  UserCollectionSummary,
-} from "./api";
+import type { UserCollectionDetails, UserCollectionSummary } from "./api";
 
 export async function fetchUserCollections(userName: string) {
   const cookieStore = await cookies();
@@ -41,19 +38,4 @@ export async function fetchUserCollectionsWithDetails(
       },
     },
   );
-}
-
-export async function fetchMyCollections() {
-  const cookieStore = await cookies();
-  const cookieHeader = cookieStore
-    .getAll()
-    .map(({ name, value }) => `${name}=${value}`)
-    .join("; ");
-
-  return apiFetch<UserCollectionSummary[]>(`/collections/`, {
-    cache: "no-store",
-    headers: {
-      Cookie: cookieHeader,
-    },
-  });
 }

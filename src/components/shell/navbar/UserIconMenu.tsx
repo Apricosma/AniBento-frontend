@@ -15,14 +15,17 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { LogOutIcon, UserRoundIcon } from "lucide-react";
 import Link from "next/link";
+import type { User } from "@/app/features/auth/types";
 
-export default function UserIconMenu() {
+export default function UserIconMenu({ initialUser }: { initialUser?: User | null }) {
   const { user, isLoading, logout } = useAuth();
   const [open, setOpen] = useState(false);
 
-  if (isLoading) return null;
+  const displayUser = isLoading ? (initialUser ?? null) : user;
 
-  const avatarSrc = user?.profilePictureUrl;
+  if (!displayUser) return null;
+
+  const avatarSrc = displayUser.profilePictureUrl;
 
   const handleLogout = async () => {
     try {
@@ -36,7 +39,7 @@ export default function UserIconMenu() {
 
   return (
     <>
-      <span className="">{user?.userName}</span>
+      <span className="">{displayUser.userName}</span>
       {avatarSrc ? (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -50,7 +53,7 @@ export default function UserIconMenu() {
           <DropdownMenuContent className="" sideOffset={8} align="end">
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Link href={`/user/${user?.userName}`} className="w-full">
+                <Link href={`/user/${displayUser.userName}`} className="w-full">
                   <div className="flex justify-between">
                     <p>My Profile</p>
                     <UserRoundIcon className="mt-1" />

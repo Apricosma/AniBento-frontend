@@ -6,7 +6,7 @@ export default async function CollectionContentViewPage({ params }: {
 }) {
   const { userName, collectionId } = await params;
   const parsedCollectionId = Number(collectionId);
-  const initialCollectionDetails = await fetchUserCollectionsWithDetails(
+  const initialData = await fetchUserCollectionsWithDetails(
     userName,
     parsedCollectionId,
   );
@@ -16,7 +16,7 @@ export default async function CollectionContentViewPage({ params }: {
       <CollectionGrid
         userName={userName}
         collectionId={parsedCollectionId}
-        initialCollectionDetails={initialCollectionDetails}
+        initialData={initialData}
       />
     </div>
   );
