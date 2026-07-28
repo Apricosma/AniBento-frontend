@@ -14,6 +14,21 @@ export async function logout(): Promise<void> {
   });
 }
 
+export type RegisterRequest = {
+  email: string,
+  username: string,
+  password: string
+}
+
+export async function signup(
+  request: RegisterRequest
+): Promise<void> {
+  await apiFetch<void>("/auth/register", {
+    method: "POST",
+    body: JSON.stringify( request )
+  });
+}
+
 export async function fetchCurrentUser(): Promise<User> {
   return apiFetch<User>("/auth/me");
 }

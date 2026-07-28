@@ -4,7 +4,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import {
   login as apiLogin,
   logout as apiLogout,
+  signup as apiSignup,
   fetchCurrentUser,
+  RegisterRequest
 } from "./api";
 import type { User } from "./types";
 
@@ -13,6 +15,7 @@ type AuthState = {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<User>;
   logout: () => Promise<void>;
+  signup: (request: RegisterRequest) => Promise<User>;
   refresh: () => Promise<void>;
 };
 
@@ -56,6 +59,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  async function handleSignup(
+    request: RegisterRequest
+  ): Promise<User> {
+    await apiSignup(request)
+
+    const userData = await fetchCurrentUser();
+    setUser(userData);
+
+    return userData;
+  }
+
   useEffect(() => {
     refresh();
   }, []);
@@ -65,6 +79,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isLoading,
     login: handleLogin,
     logout: handleLogout,
+    signup: handleSignup,
     refresh,
   };
 

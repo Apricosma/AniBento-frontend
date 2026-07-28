@@ -62,32 +62,37 @@ export default function TopBar({ initialUser }: { initialUser?: User | null }) {
 
       <div className="flex items-center gap-3">
         {!displayUser && (
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="mr-2">
-                Sign In
-              </Button>
-            </PopoverTrigger>
+          <>
+            <Button asChild><Link href="/signup">Register</Link></Button>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="mr-2">
+                  Sign In
+                </Button>
+              </PopoverTrigger>
 
-            <PopoverContent
-              className="w-80 bg-accent"
-              align="end"
-              sideOffset={8}
-            >
-              <PopoverHeader className="">
-                <PopoverTitle className="text-3xl">Welcome Back!</PopoverTitle>
-                <PopoverDescription className="pb-2 text-md">
-                  Please sign in to continue.
-                </PopoverDescription>
-                <LoginForm
-                  successBehavior="reload"
-                  onSuccess={() => {
-                    window.location.reload();
-                  }}
-                />
-              </PopoverHeader>
-            </PopoverContent>
-          </Popover>
+              <PopoverContent
+                className="w-80 bg-accent"
+                align="end"
+                sideOffset={8}
+              >
+                <PopoverHeader className="">
+                  <PopoverTitle className="text-3xl">
+                    Welcome Back!
+                  </PopoverTitle>
+                  <PopoverDescription className="pb-2 text-md">
+                    Please sign in to continue.
+                  </PopoverDescription>
+                  <LoginForm
+                    successBehavior="reload"
+                    onSuccess={() => {
+                      window.location.reload();
+                    }}
+                  />
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover>
+          </>
         )}
         {displayUser && <UserIconMenu initialUser={initialUser} />}
       </div>
