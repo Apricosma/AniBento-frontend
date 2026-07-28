@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useAuth } from "./AuthProvider";
 import type { User } from "./types";
+import { HttpError } from "@/lib/fetch";
 
 export function useLogin() {
   const { login } = useAuth();
@@ -16,7 +17,12 @@ export function useLogin() {
       const user = await login(email, password);
       return user;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      if (err instanceof HttpError && err.status === 401) {
+        setError(err instanceof Error ? err.message : "Invalid Username or Password");
+
+      } else {
+        setError(err instanceof Error ? err.message : "Login failed");
+      }
       return null;
     } finally {
       setIsSubmitting(false);

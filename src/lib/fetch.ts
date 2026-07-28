@@ -25,21 +25,17 @@ export async function apiFetch<T = unknown>(
   });
 
   if (!res.ok) {
-    if (!res.ok) {
-      // const text = await res.text().catch(() => "");
-      // console.error("apiFetch failed", {
-      //   url: `${API_BASE}${path}`,
-      //   status: res.status,
-      //   isServer: typeof window === "undefined",
-      //   text,
-      // });
-      if (res.status === 404) return null as T;
-      // throw new HttpError(
-      //   res.status,
-      //   text,
-      //   `Request failed with status ${res.status}: ${text}`,
-      // );
+    const text = await res.text().catch(() => "");
+
+    if (res.status === 404) {
+      return null as T;
     }
+
+    throw new HttpError(
+      res.status,
+      text,
+      `Request failed with status ${res.status}: ${text}`,
+    );
   }
 
   if (res.status === 204) return undefined as T;

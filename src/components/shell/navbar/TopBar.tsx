@@ -61,7 +61,7 @@ export default function TopBar({ initialUser }: { initialUser?: User | null }) {
       </div>
 
       <div className="flex items-center gap-3">
-        {!displayUser && !isLoading && (
+        {!displayUser && (
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline" className="mr-2">
@@ -82,7 +82,6 @@ export default function TopBar({ initialUser }: { initialUser?: User | null }) {
                 <LoginForm
                   successBehavior="reload"
                   onSuccess={() => {
-                    setOpen(false);
                     window.location.reload();
                   }}
                 />
