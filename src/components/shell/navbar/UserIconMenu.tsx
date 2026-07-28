@@ -1,27 +1,26 @@
 "use client";
 
 import { useAuth } from "@/app/features/auth/AuthProvider";
-import { UserRound } from "lucide-react";
+import { UserRound, LogOutIcon, UserRoundIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { LogOutIcon, UserRoundIcon } from "lucide-react";
 import Link from "next/link";
 import type { User } from "@/app/features/auth/types";
 
-export default function UserIconMenu({ initialUser }: { initialUser?: User | null }) {
+export default function UserIconMenu({
+  initialUser,
+}: {
+  initialUser?: User | null;
+}) {
   const { user, isLoading, logout } = useAuth();
-  const [open, setOpen] = useState(false);
 
-  const displayUser = isLoading ? (initialUser ?? null) : user;
+  const displayUser = isLoading ? initialUser ?? null : user;
 
   if (!displayUser) return null;
 
@@ -31,7 +30,6 @@ export default function UserIconMenu({ initialUser }: { initialUser?: User | nul
     try {
       await logout();
       window.location.reload();
-      setOpen(false);
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -39,43 +37,47 @@ export default function UserIconMenu({ initialUser }: { initialUser?: User | nul
 
   return (
     <>
-      <span className="">{displayUser.userName}</span>
-      {avatarSrc ? (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+      <span>{displayUser.userName}</span>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          {avatarSrc ? (
             <img
               src={avatarSrc}
               alt="User Avatar"
-              className="w-12 h-12 rounded-full object-cover"
+              className="w-12 h-12 rounded-full object-cover cursor-pointer"
             />
-          </DropdownMenuTrigger>
+          ) : (
+            <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center cursor-pointer">
+              <UserRound className="w-6 h-6 text-muted-foreground" />
+            </div>
+          )}
+        </DropdownMenuTrigger>
 
-          <DropdownMenuContent className="" sideOffset={8} align="end">
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Link href={`/user/${displayUser.userName}`} className="w-full">
-                  <div className="flex justify-between">
-                    <p>My Profile</p>
-                    <UserRoundIcon className="mt-1" />
-                  </div>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="flex justify-between text-destructive"
-                onSelect={handleLogout}
+        <DropdownMenuContent align="end" sideOffset={8}>
+          <DropdownMenuGroup>
+            <DropdownMenuItem asChild>
+              <Link
+                href={`/user/${displayUser.userName}`}
+                className="flex w-full justify-between"
               >
-                Logout
-                <LogOutIcon className="text-destructive mt-1" />
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ) : (
-        <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center">
-          <UserRound className="w-5 h-5 text-muted-foreground" />
-        </div>
-      )}
+                <span>My Profile</span>
+                <UserRoundIcon className="w-4 h-4" />
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuItem
+              className="flex justify-between text-destructive"
+              onSelect={handleLogout}
+            >
+              <span>Logout</span>
+              <LogOutIcon className="w-4 h-4 text-destructive" />
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </>
   );
 }
